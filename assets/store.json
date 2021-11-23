@@ -1,0 +1,54 @@
+{
+  "Cursors":{
+    "Test Cursor":{
+      "boost":10,
+      "basePrice":10
+    },
+    "2":{
+      "boost":2,
+      "basePrice":2
+    },
+    "3":{
+      "boost":3,
+      "basePrice":3
+    },
+    "4":{
+      "boost":20,
+      "basePrice":4
+    },
+    "5":{
+      "boost":20,
+      "basePrice":5
+    },
+    "6":{
+      "boost":20,
+      "basePrice":6
+    },
+    "7":{
+      "boost":20,
+      "basePrice":7
+    },
+    "8":{
+      "boost":20,
+      "basePrice":8
+    },
+    "9":{
+      "boost":20,
+      "basePrice":9
+    },
+    "10":{
+      "boost":20,
+      "basePrice":10
+    },
+    "11":{
+      "boost":20,
+      "basePrice":11
+    }
+  },
+  "Boosts":{
+    "Test Boost":{
+      "boost":10,
+      "basePrice":10
+    }
+  }
+}

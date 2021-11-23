@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100px" height="100px">
+  <style>
+    text {
+      stroke:lightblue;
+      font-size:90px;
+      font-family:Arial;
+    }
+  </style>
+  <text x="25px" y="79px" fill="#fff" >$</text>
+</svg>

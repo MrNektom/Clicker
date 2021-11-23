@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width">
+  <title></title>
+  <link rel="stylesheet" href="css/dialog.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+</head>
+<body>
+  <div id="header">
+    <button id="store_btn" type="submit">
+      <img src="./assets/store.svg" height="25px" width="25px"/><br/>
+      Store
+    </button>
+  </div>
+  <div id="score">
+    Score: <span id="score_value">0</span>
+  </div>
+  <div id="speed">
+    Speed: <span id="speed_value">0</span> points/s
+  </div>
+  <span style="position:fixed;left:20px; bottom:0;color:#aaa;font-size:10px;">v.0.2.4</span>
+  <button id="click">Click</button>
+  <template id="tmp">
+    <li class="store_list_item">
+      <span class="store_item_name"></span>
+      <span class="store_item_price"></span>
+      <button class="store_item_buy_btn">Buy</button>
+    </li>
+  </template>
+  <script src="js/proto_patches.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/components.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/script.js" charset="utf-8"></script>
+</body>
+</html>
