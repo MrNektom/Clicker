@@ -13,8 +13,8 @@
     } catch (err) {
       console.log(err)
     }
-      
-    
+
+
     let storeBuys = localStorage.getItem("store")
     if (!storeBuys) {
       storeBuys = {
@@ -24,9 +24,10 @@
     } else {
       storeBuys = JSON.parse(storeBuys)
     }
-    window.on("unload",()=>{
-      localStorage.setItem("store",JSON.stringify(storeBuys))
+    window.on("unload", () => {
+      localStorage.setItem("store", JSON.stringify(storeBuys))
     })
+    
     let events = new EventTarget()
     let result = {
       events,
@@ -40,57 +41,59 @@
         return this.category("Cursors").items()
       },
       booster(name) {
-        
+
       },
       buyCursor(name) {
         return this.category("Cursor").item(name).buy()
       },
-      categories(){
+      categories() {
         return Object.keys(store)
       },
-      category(name){
-        if(!store[name])return null;
+      category(name) {
+        if (!store[name]) return null;
         return {
-          get name(){
+          get name() {
             return name
           },
-          item(itemName){
+          item(itemName) {
             //console.log(store[name][itemName])
-            if(!store[name][itemName])return null;
+            if (!store[name][itemName]) return null;
             return {
               get name() {
                 return itemName
               },
               get price() {
-                let buys = (storeBuys[name]?storeBuys[name]:0)
-                buys = buys!=null?buys[itemName]:0
-                if(buys === undefined)buys = 0
-                return (buys+1)*store[name][itemName].basePrice
+                let buys = (storeBuys[name] ? storeBuys[name] : 0)
+                buys = buys != null ? buys[itemName] : 0
+                if (buys === undefined) buys = 0
+                return (buys + 1) * store[name][itemName].basePrice
               },
               buy() {
-                let r = result.buyItem(name,itemName)
+                return result.buyItem(name, itemName)
               }
             }
           },
-          items(){
+          items() {
             let items = Object.keys(store[name])
             return items.sort((a, b) => store[name][a].basePrice - store[name][b].basePrice)
           }
         }
       },
-      buyItem(category,item){
-        if(data.score > result.category(category).item(item).price){
-          if(!storeBuys[category])storeBuys[category]={};
-          if(!storeBuys[category][item])storeBuys[category][item]=0;
-          storeBuys[category][item]++
-          events.emit(
-            new CustomEvent("buy",{
-              detail:{
+      buyItem(category, item) {
+        item = result.category(category).item(item);
+        if (data.score > item.price) {
+          if (!storeBuys[category]) storeBuys[category] = {};
+          if (!storeBuys[category][item]) storeBuys[category][item] = 0;
+          data.score -= item.price
+          if(typeof storeBuys[category][item.name] != "number")storeBuys[category][item.name] = 0;
+          storeBuys[category][item.name]++
+          events.dispatchEvent(
+            new CustomEvent("buy", {
+              detail: {
                 category,
                 item
               }
-            }
-          ))
+            }))
         }
       }
     }
@@ -119,10 +122,10 @@
       return this._score
     }
   }
-  await initStore(data)
+  await initStore(data);
   {
     let s = localStorage.getItem("score")
-    if (s !== null)data.score = s;
+    if (s !== null) data.score = s;
   }
 
   click.on("click", e => {
@@ -131,17 +134,17 @@
       clearTimeout(data._timeout)
       data._timeout = null;
     }
-    data._timeout = setTimeout(()=> {
+    data._timeout = setTimeout(() => {
       data.speed = 0
     }, 500)
     let t = performance.now()
-    let spd = 1000/(t-data._time)
+    let spd = 1000 / (t - data._time)
     data.speed = spd
     data._time = t
   })
 
-  window.on("unload", e=> {
-      localStorage.setItem("score", data.score)
+  window.on("unload", e => {
+    localStorage.setItem("score", data.score)
   })
   let tmp = document.query("#tmp")
   //console.log(tmp)
@@ -150,7 +153,7 @@
   let dialog = new Dialog()
 
   dialog.title = "Store"
-  
+
   let storeContent = document.createElement("m-slider")
   storeContent.style.backgroundColor = "#fff"
   //console.log(storeContent)
@@ -170,28 +173,40 @@
   }
   storeContent.addSlide("Cursors",cursors)
   */
-  for(let category of data.store.categories()){
+  for (let category of data.store.categories()) {
     category = data.store.category(category)
-    let cl = document.ce("ul")
+    let cl = document.createElement("ul")
     cl.classList.add("store_list")
-    for(let item of category.items()){
+    for (let item of category.items()) {
       item = category.item(item)
       let li = sit.cloneNode(true)
       li.query(".store_item_name").innerText = item.name
       li.query(".store_item_price").innerText = item.price + "cp"
       cl.appendChild(li)
     }
-    storeContent.addSlide(category.name,cl)
+    storeContent.addSlide(category.name, cl)
+
   }
+  storeContent.addEventListener("click", e => {
+    if (!e.target.classList.contains("store_item_buy_btn")) return;
+    let item = e.target.closest(".store_list_item")
+    if (!item) return;
+    item = item.querySelector(".store_item_name")
+    item = data.store.category(item.closest(".store_list").slot).item(item.innerText)
+    item.buy()
+  })
   dialog.content = storeContent
-  
-  document.query("#store_btn").on("click",
-    async e => {
+
+  data.store.on("buy", e => {
+    console.log(e)
+  })
+  document.query("#store_btn").on("click", async e => {
       await dialog.show()
 
       //console.log(dialog)
+
     })
 
-})().catch(err=> {
+})().catch(err => {
   console.info(err)
 })
