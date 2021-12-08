@@ -6,6 +6,11 @@
   <title></title>
   <link rel="stylesheet" href="css/dialog.css" type="text/css" media="all" />
   <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+  <script type="text/javascript" charset="utf-8">
+    window.addEventListener("error",function(err){
+      console.log(err.error.stack,err.lineno,err.filename)
+    })
+  </script>
 </head>
 <body>
   <div id="header">
