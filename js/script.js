@@ -1,5 +1,18 @@
 (async () => {
-
+  
+  window.addEventListener("load",e=>{
+      document.body.animate([
+        {
+          opacity:0
+        },{
+          opacity:1
+        }
+      ],{
+        duration:500,
+        fill:"forwards"
+      })
+  })
+  
   const click = document.querySelector("#click");
   const score = document.querySelector("#score_value");
   const speed = document.querySelector("#speed_value");
@@ -150,7 +163,9 @@
   //console.log(tmp)
   let sit = tmp.content.query(".store_list_item")
   //alert()
-  let dialog = new Dialog()
+  let dialog = new Dialog({
+    ok_btn_label:"Close"
+  })
 
   dialog.title = "Store"
 
@@ -183,9 +198,12 @@
       li.query(".store_item_name").innerText = item.name
       li.query(".store_item_price").innerText = item.price + "cp"
       cl.appendChild(li)
+      data.store.on("buy",e =>{
+        if(e.detail.item.name !== item.name)return;
+        li.querySelector(".store_item_price").innerText = item.price + "cp"
+      })
     }
     storeContent.addSlide(category.name, cl)
-
   }
   storeContent.addEventListener("click", e => {
     if (!e.target.classList.contains("store_item_buy_btn")) return;

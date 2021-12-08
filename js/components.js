@@ -4,7 +4,7 @@
     <style>
       
       * {
-        outline:1px solid white;
+        /*outline:1px solid white;*/
       }
       :host {
         overflow: hidden;
@@ -94,7 +94,7 @@
         this.#slides.set(slide,this.#tabs.addTab(name,"/assets/store.svg"))
         this.appendChild(slide)
       }
-      console.log(name)
+      //console.log(name)
     }
     #onChange(mutations, ob){
       for(let mutation of mutations){

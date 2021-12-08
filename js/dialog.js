@@ -38,6 +38,10 @@
           this.close()
         }
       })
+      if(options.ok_btn_label){
+        d.querySelector(".ok_button")
+        .innerText = options.ok_btn_label
+      }
     }
 
     show() {
